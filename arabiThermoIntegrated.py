@@ -92,9 +92,9 @@ def scaleBar(path, max_folder, min_folder):
     name = os.path.basename(path) #元画像のファイル名をパスら抽出
 
     max_crop = img.crop((617.719, 40.9075, 631.879, 41.5927))
-    max_crop.save(str(max_folder) + str(name)[:-4] + '_max.png')
+    max_crop.save(max_folder + "/" + str(name)[:-4] + '_max.png')
     min_crop = img.crop((618.118, 436.149, 631.765, 438.090))
-    min_crop.save(str(min_folder) + str(name)[:-4] + '_min.png')
+    min_crop.save(min_folder + "/" + str(name)[:-4] + '_min.png')
 
 
 #グレースケールを測定して保存するプログラム
@@ -127,7 +127,10 @@ temp_header = ['path', 'max_temp', 'min_temp']
 p =  Path(pathToIR).parent #画像の親ディレクトリを取得
 max_folder = os.mkdir(str(p) + '/max_temp')
 min_folder = os.mkdir(str(p) + '/min_temp')
+max_folder = str(p) + '/max_temp'
+min_folder = str(p) + '/min_temp'
 
+print(max_folder)
 res = extractCoordinate(pathToOriginal, pathToIR)
 
 #リサイズ
