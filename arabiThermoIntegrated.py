@@ -91,9 +91,9 @@ def scaleBar(path, max_folder, min_folder):
     img = Image.open(path) #画像の取得
     name = os.path.basename(path) #元画像のファイル名をパスら抽出
 
-    max_crop = img.crop((617.719, 40.9075, 631.879, 41.5927))
+    max_crop = img.crop((620, 30, 634, 34))
     max_crop.save(max_folder + "/" + str(name)[:-4] + '_max.png')
-    min_crop = img.crop((618.118, 436.149, 631.765, 438.090))
+    min_crop = img.crop((620, 445, 634, 448))
     min_crop.save(min_folder + "/" + str(name)[:-4] + '_min.png')
 
 
@@ -139,12 +139,15 @@ for i in range(len(res[0])):
     resize(res[1][i], res[3][i])
     coordinate_data.append([res[0][i], res[1][i], res[2][i], res[3][i]])
 
+IRImages = []
+
 #重ね合わせ
 for  i in range(len(res[0])):
     superpose(res[0][i], res[1][i], res[0][i][:-4]+'_henkango.png', res[1][i][:-4]+'_henkango.png')
+    IRImages.append(res[1][i])
 
 #スケールバーから画像作成
-IRImages = natsorted(glob.glob(pathToIR + '/*'))
+IRImages = natsorted(IRImages)
 for i in range(len(IRImages)):
     scaleBar(IRImages[i], max_folder, min_folder)
 
@@ -165,7 +168,7 @@ with open('pathAndCoodinate.csv', 'w') as f:
     for i in range(len(coordinate_data)):
         writer.writerow(coordinate_data[i])
 
-with open('pathAndTemp', 'w') as c:
+with open('pathAndTemp.csv', 'w') as c:
     writer = csv.writer(c, lineterminator='\n')
     writer.writerow(temp_header)
     for i in range(len(temp_data)):
